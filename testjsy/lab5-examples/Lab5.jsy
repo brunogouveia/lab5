@@ -1,3 +1,17 @@
+/**
+ * Authors: Bruno Henrique Gouveia, Ian Andrew Moore
+ *
+ * This test implement a Binary Tree in JavaScripty (proposed at lab 5)
+ */
+
+
+/** Code copied from example while.jsy **/
+/* Call-By-Name:
+ *
+ * With call-by-name, we can write a function that looks very
+ * close to a custom statement.  For example, we define a
+ *  'while' loop below.
+ */
 const while = function while(name b: bool): (name body: Undefined) => Undefined  {
   return (name body: Undefined) => !b ? undefined : (body, while(b)(body))
 }
@@ -18,17 +32,9 @@ const Cons = function(h: number, t: Listy): Listy {
   return <Listy>{ h: h, t: t }
 }
 
-// const Listy = {
-//   printy: function(var c: Listy): Undefined {
-//     while (c !== Nil) ({{
-//       console.log(hd(c));
-//       c = tl(c);
-//       undefined;
-//     }})
-//     return undefined
-//   }
-// }
 
+
+/** Implementation of a Binary Tree **/
 
 interface TreeNode {value: number; l: TreeNode; r: TreeNode};
 
@@ -51,17 +57,6 @@ const AddNode = function add(t: TreeNode, d:number):TreeNode {
 	return r;
 }
 
-const NewTreeFromListy = function newTree(var l: Listy) : TreeNode {
-	var t = <TreeNode>NilNode;
-
-	while (l !== Nil) ({{
-		t = AddNode(t, hd(l));
-		l = tl(l);
-		undefined;
-	}})
-	return t;
-}
-
 const Tree = {
 	//Constructor
 	Tree : function newTree(var l: Listy) : TreeNode {
@@ -75,8 +70,18 @@ const Tree = {
 		return t;
 	},
 
+	//Check if is a valid tree
+	checkTree : function (ref t: TreeNode) : bool {
+		const check = function c(tr: TreeNode) : bool {
+			var b1 = (ln(tr) !== NilNode) ? vn(ln(tr)) < vn(tr) && c(ln(tr)) : true;
+			var b2 = (rn(tr) !== NilNode) ? vn(rn(tr)) > vn(tr) && c(rn(tr)): true;
+			return b1 && b2;
+		}
+		return (t !== NilNode) ? check(t) : true;
+	},
+
 	//Print tree
-	printyInOrder : function (t: TreeNode) : Undefined {
+	printyInOrder : function (ref t: TreeNode) : Undefined {
 		const printyNode = function p(t:TreeNode) : Undefined {
 			(ln(t) !== NilNode) ? p(ln(t)) : undefined;
 			console.log(vn(t));
@@ -88,8 +93,16 @@ const Tree = {
 	}
 }
 
-// console.log(AddNode(<TreeNode>{value:2, l:NilNode, r:NilNode}, 3));
-Tree.printyInOrder(Tree.Tree(Cons(4, Cons(42, Cons(-1, Cons(0,Cons(3, Nil)))))));
+var tree = Tree.Tree(Cons(4, Cons(42, Cons(-1, Cons(0,Cons(3, Nil))))));
+Tree.printyInOrder(tree);
+
+/** To execute this code, you must set --no-bound-steps or set to a high number of steps, and comment the previous two lines **/
+// var tree2 = Tree.Tree(Cons(4, Cons(42, Cons(-1, Cons(0, Cons(-23, Cons(-42, Cons(35, Nil))))))));
+// Tree.printyInOrder(tree2);
+
+// console.log("Is a valid tree: ");
+// console.log(Tree.checkTree(tree2));
+// console.log("");
 
 
 
