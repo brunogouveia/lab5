@@ -144,6 +144,7 @@ object ast {
     def +(kv: (A, Expr)): Mem = new Mem(map + kv, nextAddr)
     def contains(key: A): Boolean = map.contains(key)
     
+    def isEmpty = map.isEmpty
     def alloc(v: Expr): (Mem, A) = {
       val fresha = A(nextAddr)
       (new Mem(map + (fresha -> v), nextAddr + 1), fresha)
@@ -362,7 +363,7 @@ object ast {
   /* Substitute in type t replacing uses of type variable tvar with type tp */
   def typSubstitute(t: Typ, tp: Typ, tvar: String): Typ = {
     def subst(tr: Typ => Typ): PartialFunction[Typ,Typ] = {
-      case TVar(tvarp) => if (tvar == tvarp) tp else t
+      case TVar(tvarp) => if (tvar == tvarp) tp else TVar(tvarp)
       case TInterface(tvarp, t1) =>
         if (tvar == tvarp) t // tvar shadowed by tvarp
         else TInterface(tvarp, tr(t1))

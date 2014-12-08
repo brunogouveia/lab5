@@ -1,0 +1,95 @@
+const while = function while(name b: bool): (name body: Undefined) => Undefined  {
+  return (name body: Undefined) => !b ? undefined : (body, while(b)(body))
+}
+
+
+/* Imperative Linked-Lists */
+
+interface Listy { h: number; t: Listy }
+const hd = function(l: Listy) {
+  return (<{ h: number; t: Listy }>l).h
+}
+const tl = function(l: Listy) {
+  return (<{ h: number; t: Listy }>l).t
+}
+
+const Nil = <Listy>null; 
+const Cons = function(h: number, t: Listy): Listy {
+  return <Listy>{ h: h, t: t }
+}
+
+// const Listy = {
+//   printy: function(var c: Listy): Undefined {
+//     while (c !== Nil) ({{
+//       console.log(hd(c));
+//       c = tl(c);
+//       undefined;
+//     }})
+//     return undefined
+//   }
+// }
+
+
+interface TreeNode {value: number; l: TreeNode; r: TreeNode};
+
+const NilNode = <TreeNode>null;
+
+const vn = function(t: TreeNode) {
+	return (<{value: number; l: TreeNode; r: TreeNode}>t).value;
+}
+const ln = function(t: TreeNode) {
+	return (<{value: number; l: TreeNode; r: TreeNode}>t).l;
+}
+const rn = function(t: TreeNode) {
+	return (<{value: number; l: TreeNode; r: TreeNode}>t).r;
+}
+
+
+const AddNode = function add(t: TreeNode, d:number):TreeNode {
+	const r = (t === NilNode) ? <TreeNode>{value: d, r:NilNode, l:NilNode}  : (vn(t) === d) ?  t :
+		(d < vn(t)) ?  <TreeNode>{value: vn(t), l: add(ln(t), d), r: rn(t)} :  <TreeNode>{value: vn(t), r: add(rn(t), d), l: ln(t)}
+	return r;
+}
+
+const NewTreeFromListy = function newTree(var l: Listy) : TreeNode {
+	var t = <TreeNode>NilNode;
+
+	while (l !== Nil) ({{
+		t = AddNode(t, hd(l));
+		l = tl(l);
+		undefined;
+	}})
+	return t;
+}
+
+const Tree = {
+	//Constructor
+	Tree : function newTree(var l: Listy) : TreeNode {
+		var t = <TreeNode>NilNode;
+
+		while (l !== Nil) ({{
+			t = AddNode(t, hd(l));
+			l = tl(l);
+			undefined;
+		}})
+		return t;
+	},
+
+	//Print tree
+	printyInOrder : function (t: TreeNode) : Undefined {
+		const printyNode = function p(t:TreeNode) : Undefined {
+			(ln(t) !== NilNode) ? p(ln(t)) : undefined;
+			console.log(vn(t));
+			(rn(t) !== NilNode) ? p(rn(t)) : undefined;
+			return undefined;
+		}
+		console.log("/***********Printing tree********************/");
+		return (t !== NilNode) ? printyNode(t) : undefined;
+	}
+}
+
+// console.log(AddNode(<TreeNode>{value:2, l:NilNode, r:NilNode}, 3));
+Tree.printyInOrder(Tree.Tree(Cons(4, Cons(42, Cons(-1, Cons(0,Cons(3, Nil)))))));
+
+
+

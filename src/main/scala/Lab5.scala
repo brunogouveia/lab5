@@ -6,7 +6,7 @@ object Lab5 extends jsy.util.JsyApplication {
    * CSCI 3155: Lab 5
    * Bruno Gouveia
    * 
-   * Partner: <Your Partner's Name>
+   * Partner: Ian Andrew Moore
    * Collaborators: <Any Collaborators>
    */
 
@@ -46,20 +46,27 @@ object Lab5 extends jsy.util.JsyApplication {
   /*** Casting ***/
   
   def castOk(t1: Typ, t2: Typ): Boolean = (t1, t2) match {
-//    case (TNull, TObj(_)) => println("Tnull,Tobj"); true
-    case (TObj(_),TNull) => println("Tnull,Tobj"); true
-    case (_, _) if (t1 == t2) => println("_ _"); true
-    case (TObj(fields1), TObj(fields2)) => println("Tobj"); /*if (fields1.isEmpty || fields2.isEmpty) false else*/ (fields1, fields2).zipped.foldLeft(true){
-      (b, tup) => 
-      	val (f1,f2) = tup
-      	if (f1 != f2)
-      	  false
-      	else
-      	  true
-    }
-    case (TInterface(tvar, t1p), _) => println("T_"); castOk(typSubstitute(t1p, t1, tvar), t2)
-    case (_, TInterface(tvar, t2p)) => println("_T"); castOk(t1, typSubstitute(t2p, t2, tvar))
-    case _ => println("_"); false
+    case (TObj(_),TNull) => true
+    case (_, _) if (t1 == t2) => true
+    case (TObj(fields1), TObj(fields2)) => 
+    	if (fields1.size <= fields2.size) fields1.foldLeft(true){ 
+    	  (b, field) => 
+    	    val (s, tf1) = field
+    	    fields2.get(s) match {
+    	      case Some(tf2) => tf1 == tf2 && b
+    	      case _ => false
+    	    }
+    	} else fields2.foldLeft(true){
+    	  (b, field) =>
+    	    val (s, tf2) = field
+    	    fields1.get(s) match {
+    	      case Some(tf1) => tf1 == tf2 && b
+    	      case _ => false
+    	    }
+    	}
+    case (TInterface(tvar, t1p), _) => castOk(typSubstitute(t1p, t1, tvar), t2)
+    case (_, TInterface(tvar, t2p)) => castOk(t1, typSubstitute(t2p, t2, tvar))
+    case _ => false
   }
   
   /*** Type Inference ***/
@@ -194,11 +201,15 @@ object Lab5 extends jsy.util.JsyApplication {
         }
         // Infer the type of the function body
         val t1 = typeInfer(env2, e1)
-        tann foreach { rt => if (rt != t1) err(t1, e1) };
+        //tann foreach { rt => if (rt != t1) err(t1, e1) };
+        tann match {
+          case Some(rt) => if (rt != t1) err(t1, e1) else None
+          case None => None
+        }
         TFunction(paramse, t1)
       }
       
-      //TypeCall TODO-?
+      //TypeCall
       case Call(e1, args) => typ(e1) match {
         case TFunction(Left(params), tret) if (params.length == args.length) => {
           (params, args).zipped.foreach {
@@ -225,7 +236,7 @@ object Lab5 extends jsy.util.JsyApplication {
       	
       //TypeCast
       case Unary(Cast(t1), e1) => 
-        val t2 = typ(e1)
+        val t2 = typ(e1)        
         if (castOk(t1, t2)) t1 else err(t1, e1)
         
       //TypeAssign
@@ -240,6 +251,7 @@ object Lab5 extends jsy.util.JsyApplication {
 	      if (tfield == te2) tfield else err(tfield, e)
         case _ => err(typ(e1), e1)
       }  
+
       
       /* Should not match: non-source expressions or should have been removed */
       case A(_) | Unary(Deref, _) | InterfaceDecl(_, _, _) => throw new IllegalArgumentException("Gremlins: Encountered unexpected expression %s.".format(e))
@@ -344,7 +356,7 @@ object Lab5 extends jsy.util.JsyApplication {
       case If(B(b1), e2, e3) => doreturn( if (b1) e2 else e3 )
       case Obj(fields) if (fields forall { case (_, vi) => isValue(vi)}) => Mem.alloc(Obj(fields))
         
-      //TODO
+      //DoGetField
       case GetField(a @ A(_), f) => new DoWith(
           (m: Mem) => 
             m.get(a) match {
@@ -421,8 +433,7 @@ object Lab5 extends jsy.util.JsyApplication {
       )
         
       //DoAssignVar
-      case Assign(Unary(Deref, a @ A(_)), v) if isValue(v) =>//TODO
-        for (_ <- domodify { (m: Mem) => (m + (a,v)): Mem }) yield v
+      case Assign(Unary(Deref, a @ A(_)), v) if isValue(v) => for (_ <- domodify { (m: Mem) => (m + (a,v)): Mem }) yield v
         
       //DoAssignField
       case Assign(GetField(a @ A(_), f), v) if isValue(v) => new DoWith(
@@ -449,13 +460,23 @@ object Lab5 extends jsy.util.JsyApplication {
                 case (Some(Obj(fields)), TObj(tfields)) => 
                   val valid = tfields.foldLeft(true){
                     (b, tfield) => fields.get(tfield._1) match {
-                      case Some(_) => true
+                      case Some(_) => true && b
                       case _ => false
                     }
                     
                   }
                   if (valid) (m, a) else throw new DynamicTypeError(e)
-                case _ => throw new DynamicTypeError(e)
+                case (Some(Obj(fields)), TInterface(t, TObj(tfields))) => 
+                  val valid = tfields.foldLeft(true){
+                    (b, tfield) => fields.get(tfield._1) match {
+                      case Some(_) => true && b
+                      case _ => false
+                    }
+                    
+                  }
+                  if (valid) (m, a) else throw new DynamicTypeError(e)
+                case _ => 
+                  throw new DynamicTypeError(e)
               }
           )
           case _ => doreturn(v1)

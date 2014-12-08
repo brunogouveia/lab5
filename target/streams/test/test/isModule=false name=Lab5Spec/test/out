@@ -1,0 +1,73 @@
+[0m[[0minfo[0m] [0m[32mLab5Spec:[0m[0m
+[0m[[0minfo[0m] [0m[32mTypeNeg[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoNeg[0m[0m
+[0m[[0minfo[0m] [0m[32m- should negate values[0m[0m
+[0m[[0minfo[0m] [0m[32mDoNot[0m[0m
+[0m[[0minfo[0m] [0m[32m- should invert boolean values[0m[0m
+[0m[[0minfo[0m] [0m[32mDoSeq[0m[0m
+[0m[[0minfo[0m] [0m[32m- should produce second element in sequence[0m[0m
+[0m[[0minfo[0m] [0m[32mDoArith[0m[0m
+[0m[[0minfo[0m] [0m[32m- should sum numbers[0m[0m
+[0m[[0minfo[0m] [0m[32mDoPlusString[0m[0m
+[0m[[0minfo[0m] [0m[32m- should concat strings[0m[0m
+[0m[[0minfo[0m] [0m[32mDoInequalityNumber[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compare according to specifications[0m[0m
+[0m[[0minfo[0m] [0m[32mDoInequalityString[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compare according to specifications[0m[0m
+[0m[[0minfo[0m] [0m[32mDoEquality[0m[0m
+[0m[[0minfo[0m] [0m[32m- should compare according to specifications[0m[0m
+[0m[[0minfo[0m] [0m[32mDoAndTrue[0m[0m
+[0m[[0minfo[0m] [0m[32m- should not shortcircuiting boolean and[0m[0m
+[0m[[0minfo[0m] [0m[32mDoAndFalse[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoOrTrue[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoOrFalse[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoIfTrue[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoIfFalse[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoObject[0m[0m
+[0m[[0minfo[0m] [0m[32m- should instantiate an object in memory[0m[0m
+[0m[[0minfo[0m] [0m[32mDoGetField[0m[0m
+[0m[[0minfo[0m] [0m[32m- should access a field from an object in memory[0m[0m
+[0m[[0minfo[0m] [0m[32mDoConst[0m[0m
+[0m[[0minfo[0m] [0m[32m- should ..[0m[0m
+[0m[[0minfo[0m] [0m[32mDoVar[0m[0m
+[0m[[0minfo[0m] [0m[32m- should declare a variable[0m[0m
+[0m[[0minfo[0m] [0m[32mDoDeref[0m[0m
+[0m[[0minfo[0m] [0m[32m- should ..[0m[0m
+[0m[[0minfo[0m] [0m[32mDoAssignVar[0m[0m
+[0m[[0minfo[0m] [0m[32m- should assign the variable to a value[0m[0m
+[0m[[0minfo[0m] [0m[32mDoAssignField[0m[0m
+[0m[[0minfo[0m] [0m[32m- should access a field from an object in memory[0m[0m
+[0m[[0minfo[0m] [0m[32mDoCall[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCallRec[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCallName[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCallRecName[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCallVar[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCallRecVar[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCast[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCastNull[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mDoCastObj[0m[0m
+[0m[[0minfo[0m] [0m[32m- should [0m[0m
+[0m[[0minfo[0m] [0m[32mSearchDecl[0m[0m
+[0m[[0minfo[0m] [0m[32m- should step its declared value[0m[0m
+[0m[[0minfo[0m] [0m[32mSearchAssign1[0m[0m
+[0m[[0minfo[0m] [0m[32m- should step the lhs[0m[0m
+[0m[[0minfo[0m] [0m[32mSearchAssign2[0m[0m
+[0m[[0minfo[0m] [0m[32m- should step the rhs[0m[0m
+[0m[[0minfo[0m] [0m[32mSearchCall1[0m[0m
+[0m[[0minfo[0m] [0m[32m- should step its function[0m[0m
+[0m[[0minfo[0m] [0m[32mmapFirstDoWith[0m[0m
+[0m[[0minfo[0m] [0m[32m- should map the first element where f returns Some[0m[0m
